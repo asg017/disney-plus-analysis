@@ -8,6 +8,10 @@ def get_tweets():
         'id_str':str
         })
 
+@st.cache
+def save_titles(titles):
+    titles.to_csv('titles.csv.gz')
+
 st.title("Disney-Plus Content Twitter Thread")
 
 """
@@ -50,6 +54,8 @@ thread["title"] = thread.text.str.split(' \(', n=1).str.get(0)
 
 titles = thread[~thread["release_year"].isnull()]
 titles["release_year_int"] = titles.release_year.astype(int)
+
+save_titles(titles)
 
 """
 I used the Twitter API to fetch all @disneyplus tweets, then did some general 
